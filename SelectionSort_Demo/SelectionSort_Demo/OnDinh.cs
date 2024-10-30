@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,36 +109,43 @@ class Program
 
     static void CompareArrays(List<Item> original, List<Item> sorted)
     {
-        Console.WriteLine("\nSo sánh mảng gốc và mảng đã sắp xếp:");
+        Console.WriteLine("\nSo sánh các phần tử trùng nhau trong mảng gốc và mảng đã sắp xếp:");
         Console.WriteLine("Format: [Giá trị (Vị trí gốc)]");
 
-        // tìm các phần tử có giá trị giống nhau để demo tính ổn định
-        var duplicateValues = original
+        // tìm các giá trị xuất hiện nhiều lần trong mảng gốc
+        var duplicateGroups = original
             .GroupBy(x => x.Value)
             .Where(g => g.Count() > 1)
-            .Take(3) // lấy 3 nhóm giá trị trùng nhau trong mảng để kiểm tra
-            .ToList();
+            .OrderByDescending(g => g.Count())
+            .Take(3);  // chỉ lấy 3 nhóm có số lần xuất hiện nhiều nhất
 
-        foreach (var group in duplicateValues)
+        foreach (var group in duplicateGroups)
         {
-            Console.WriteLine($"\nCác phần tử có giá trị {group.Key}:");
+            Console.WriteLine($"\nPhần tử có giá trị {group.Key} (xuất hiện {group.Count()} lần):");
 
-            Console.Write("Mảng gốc:     ");
-            var originalItems = original.Where(x => x.Value == group.Key)
-                                     .Take(4) // hiển thị ra 4 phần tử
-                                     .ToList();
-            foreach (var item in originalItems)
+            // lấy vị trí các phần tử trong mảng gốc
+            var originalPositions = original
+                .Select((item, index) => new { Item = item, Index = index })
+                .Where(x => x.Item.Value == group.Key)
+                .Take(5);  // chỉ hiển thị tối đa 5 phần tử
+
+            Console.Write("Trong mảng gốc: ");
+            foreach (var pos in originalPositions)
             {
-                Console.Write($"[{item.Value}({item.OriginalPosition})] ");
+                Console.Write($"[{pos.Item.Value}({pos.Item.OriginalPosition})] ");
             }
+            Console.WriteLine();
 
-            Console.Write("\nMảng đã sắp xếp: ");
-            var sortedItems = sorted.Where(x => x.Value == group.Key)
-                                  .Take(4)
-                                  .ToList();
-            foreach (var item in sortedItems)
+            // lấy vị trí các phần tử trong mảng đã sắp xếp
+            var sortedPositions = sorted
+                .Select((item, index) => new { Item = item, Index = index })
+                .Where(x => x.Item.Value == group.Key)
+                .Take(5);  
+
+            Console.Write("Trong mảng đã sắp xếp: ");
+            foreach (var pos in sortedPositions)
             {
-                Console.Write($"[{item.Value}({item.OriginalPosition})] ");
+                Console.Write($"[{pos.Item.Value}({pos.Item.OriginalPosition})] ");
             }
             Console.WriteLine();
         }
@@ -146,6 +153,7 @@ class Program
 
     static void Main()
     {
+        Console.OutputEncoding = Encoding.Unicode;
         Console.OutputEncoding = Encoding.Unicode;
         const int ARRAY_SIZE = 1000;
         const int NUM_RUNS = 100;
@@ -159,17 +167,22 @@ class Program
         Console.WriteLine($"- Số lần chạy: {NUM_RUNS}");
         Console.WriteLine();
 
-        // chạy demo với một mảng nhỏ hơn để so sánh
-        List<Item> demoArr = GenerateRandomArray(100); // sử dụng mảng nhỏ hơn để demo
-        List<Item> demoOriginal = new List<Item>(demoArr);
-        StableSelectionSort(demoArr);
-        CompareArrays(demoOriginal, demoArr);
+        // chạy và so sánh với mảng 
+        List<Item> arr = GenerateRandomArray(ARRAY_SIZE);
+        List<Item> originalArr = new List<Item>(arr);
 
-        // kiểm tra thời gian chạy
-        for (int run = 0; run < NUM_RUNS; run++)
+        timing.startTime();
+        StableSelectionSort(arr);
+        timing.StopTime();
+
+        // kiểm tra các phần tử trùng nhau
+        CompareArrays(originalArr, arr);
+
+        // kiểm tra tính ổn định và thời gian cho các lần chạy còn lại
+        for (int run = 1; run < NUM_RUNS; run++)
         {
-            List<Item> arr = GenerateRandomArray(ARRAY_SIZE);
-            List<Item> originalArr = new List<Item>(arr);
+            arr = GenerateRandomArray(ARRAY_SIZE);
+            originalArr = new List<Item>(arr);
 
             timing.startTime();
             StableSelectionSort(arr);
@@ -194,4 +207,3 @@ class Program
         Console.WriteLine($"- Thời gian dài nhất: {runTimes.Max().TotalMilliseconds:F3}ms");
     }
 }
-
