@@ -151,11 +151,25 @@ class Program
         }
     }
 
+    static void PrintArray(List<Item> arr, string message)
+    {
+        Console.WriteLine(message);
+        foreach (var item in arr)
+        {
+            Console.Write($"[{item.Value}({item.OriginalPosition})] ");
+        }
+        Console.WriteLine("\n");
+    }
+
+
     static void Main()
     {
         Console.OutputEncoding = Encoding.Unicode;
         Console.OutputEncoding = Encoding.Unicode;
-        const int ARRAY_SIZE = 1000;
+
+        const int ARRAY_SIZE = 1000; //CHỈNH ĐỂ DÙNG HÀM IN MẢNG
+
+
         const int NUM_RUNS = 100;
 
         Timing timing = new Timing();
@@ -171,9 +185,13 @@ class Program
         List<Item> arr = GenerateRandomArray(ARRAY_SIZE);
         List<Item> originalArr = new List<Item>(arr);
 
+        //PrintArray(originalArr, "Mảng gốc:"); //in mảng gốc
+
         timing.startTime();
         StableSelectionSort(arr);
         timing.StopTime();
+
+        //PrintArray(arr, "Mảng sau khi sắp xếp:"); //in mảng đã sắp xếp
 
         // kiểm tra các phần tử trùng nhau
         CompareArrays(originalArr, arr);
@@ -207,3 +225,5 @@ class Program
         Console.WriteLine($"- Thời gian dài nhất: {runTimes.Max().TotalMilliseconds:F3}ms");
     }
 }
+
+
