@@ -1,0 +1,7 @@
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\bin\Debug\SelectionSort_Demo.exe.config
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\bin\Debug\SelectionSort_Demo.exe
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\bin\Debug\SelectionSort_Demo.pdb
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\obj\Debug\SelectionSort_Demo.csproj.AssemblyReference.cache
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\obj\Debug\SelectionSort_Demo.csproj.CoreCompileInputs.cache
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\obj\Debug\SelectionSort_Demo.exe
+E:\CSharp_Repo\SelectionSort_Demo\SelectionSort_Demo\obj\Debug\SelectionSort_Demo.pdb
