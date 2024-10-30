@@ -167,7 +167,7 @@ class Program
         Console.OutputEncoding = Encoding.Unicode;
         Console.OutputEncoding = Encoding.Unicode;
 
-        const int ARRAY_SIZE = 1000; //CHỈNH ĐỂ DÙNG HÀM IN MẢNG
+        const int ARRAY_SIZE = 1000; //CHỈNH ĐỂ DÙNG HÀM IN MẢNG (nhớ chỉnh trước khi in)
 
 
         const int NUM_RUNS = 100;
@@ -184,14 +184,16 @@ class Program
         // chạy và so sánh với mảng 
         List<Item> arr = GenerateRandomArray(ARRAY_SIZE);
         List<Item> originalArr = new List<Item>(arr);
-
+//----------------In Mảng Gốc----------------------------------------//
         //PrintArray(originalArr, "Mảng gốc:"); //in mảng gốc
-
+//----------------In Mảng Gốc----------------------------------------//
+        
         timing.startTime();
         StableSelectionSort(arr);
         timing.StopTime();
-
+//----------------In Mảng Sắp Xếp--------------------------------------------------//
         //PrintArray(arr, "Mảng sau khi sắp xếp:"); //in mảng đã sắp xếp
+//----------------In Mảng Sắp Xếp-------------------------------------------------//
 
         // kiểm tra các phần tử trùng nhau
         CompareArrays(originalArr, arr);
